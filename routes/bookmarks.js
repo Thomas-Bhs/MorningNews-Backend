@@ -8,7 +8,7 @@ require('../models/connection');
 const Bookmark = require('../models/bookmarks');
 const { checkBody } = require('../modules/checkBody');
 
-router.post('/bookmarks', auth, canBookmark, async (req, res) => {
+router.post('/', auth, canBookmark, async (req, res) => {
   try {
     if (!checkBody(req.body, ['title', 'url'])) {
       return res.status(400).json({ result: false, error: 'Missing fields' });
@@ -40,7 +40,7 @@ router.post('/bookmarks', auth, canBookmark, async (req, res) => {
   }
 });
 
-router.get('/bookmarks', auth, async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // fetch page number from query, default to 1
     const limit = 10;
@@ -68,7 +68,7 @@ router.get('/bookmarks', auth, async (req, res) => {
   }
 });
 
-router.delete('/bookmarks/:id', auth, async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const bookmark = await Bookmark.findOne({ _id: req.params.id, user: req.user._id });
     

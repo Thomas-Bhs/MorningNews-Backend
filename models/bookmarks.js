@@ -6,6 +6,9 @@ const bookmarkSchema = mongoose.Schema(
     title: { type: String, required: true },
     url: { type: String, required: true },
     source: { type: String, default: '' },
+    urlToImage: { type: String, default: '' },
+    description: { type: String, default: '' },
+    author: { type: String, default: '' },
   },
   { timestamps: true }
 );

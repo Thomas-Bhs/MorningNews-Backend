@@ -29,6 +29,9 @@ router.post('/', auth, canBookmark, async (req, res) => {
       title: req.body.title,
       url: req.body.url,
       source: req.body.source,
+      urlToImage: req.body.urlToImage,
+      description: req.body.description,
+      author: req.body.author,
     });
 
     await bookmark.save();

@@ -8,36 +8,37 @@ The backend handles user authentication, data persistence, and communication wit
 ---
 
 ## Features
-
-- User authentication (signup / signin)
-- Password hashing with bcrypt
-- JWT-based authentication (access token)
-- Refresh token mechanism for session renewal
-- Secure logout (refresh token invalidation)
-- Save and retrieve bookmarked articles
-- Pagination for bookmarked articles
-- Middleware-based route protection
-- RESTful API architecture
-- MongoDB data persistence
-- Integration with an external news API
+    • User authentication
+    • User authentication (signup / signin)
+    • Password hashing with bcrypt
+    • JWT-based authentication (access token)
+    • Refresh token mechanism for session renewal
+    • Secure logout (refresh token invalidation)
+    • Save and retrieve bookmarked articles
+    • Pagination for bookmarked articles
+    • Middleware-based route protection
+    • RESTful API architecture
+    • MongoDB data persistence
+    • Integration with an external news API
 
 ---
 
 ## Tech Stack
 
-- Node.js
-- Express
-- MongoDB
-- Mongoose
-- bcrypt
-- JWT
-- dotenv
-- Jest & Supertest
+    • Node.js
+    • Express
+    • MongoDB
+    • Mongoose
+    • bcrypt
+    • JWT
+    • dotenv
+    • Jest & Supertest
 
 ---
 
 ## Project Structure
 
+```text
 backend/
 ├── bin/ # Server entry point
 ├── models/ # Mongoose models
@@ -46,17 +47,21 @@ backend/
 ├── tests/ # Automated tests
 ├── app.js # Express app configuration
 └── package.json
-
+```
 ---
 
 ## Installation & Setup
 
 1. Clone the repository:
+   ```bash
    git clone https://github.com/Thomas-Bhs/MorningNews-Backend.git
    cd MorningNews-Backend
+   ```
 
 2. Install dependencies:
+   ```bash
    yarn install
+   ```
 
 3. Create a .env file based on .env.example :
    cp .env.example .env
@@ -68,7 +73,9 @@ JWT_SECRET=<your-jwt-secret>
 NEWS_API_KEY=<your-news-api-key>
 
 4. Start the server :
+   ```bash
    yarn start
+   ```
 
 The backend runs by default on http://localhost:3000
 
@@ -88,75 +95,99 @@ Flow: 1. User signs in → access token + refresh token 2. Access token expires 
 Create a new user account.
 
 POST /users/signup :
-**Body Json**
+** Body **
+```json
 {
 "username": "john_doe",
 "password": "password123"
 }
-**Response Json**
+```
+
+
+** Response **
+```json
 {
 "result": true,
 "accessToken": "jwt_access_token",
 "refreshToken": "refresh_token"
 }
+```
 
 #### Sign in
 
 Authenticate an existing user.
 
 POST /users/signin
-**Body Json**
+** Body **
+```json
 {
 "username": "john_doe",
 "password": "password123"
 }
-**Response Json**
+```
+
+
+** Response **
+```json
 {
 "result": true,
 "accessToken": "jwt_access_token",
 "refreshToken": "refresh_token"
 }
+```
 
 #### User Permissions
 
 Check bookmark permission
 
 GET /users/canBookmark
-**Headers**
+** Headers **
 Authorization: Bearer <access_token>
-**Response Json**
+
+** Response **
+```json
 {
 "result": true,
 "canBookmark": true
 }
+```
 
 #### Refresh access token
 
 Generate a new access token using a refresh token
 
 POST /users/refresh-token
-**Body Json**
+
+** Body **
+```json
 {
 "refreshToken": "refresh_token"
 }
-**Response Json**
+```
+** Response **
+```json
 {
 "result": true,
 "accessToken": "new_jwt_access_token",
 "refreshToken": "new_refresh_token"
 }
+```
 
 #### Logout
 
 Invalidate the refresh token
 
 POST /users/logout
-**Headers**
+
+** Headers **
 Authorization: Bearer <access_token>
-**Response Json**
+
+** Response **
+```json
 {
 "result": true
 }
+```
 
 ### Articles
 
@@ -165,14 +196,15 @@ Authorization: Bearer <access_token>
 Retrieve articles from the external News API
 
 GET /articles
-**Query parameters**
+** Query parameters **
 Name Type Description Default
 page number Page number 1
 category string business,sports,technology... all
 language string Article language en
 country string Source country all
 
-**Response Json**
+** Response **
+```json
 {
 "result": true,
 "articles": [],
@@ -180,6 +212,7 @@ country string Source country all
 "hasMore": true,
 "isAuthenticated": false
 }
+```
 hasMore is used by the frontend to implement infinite scrolling.
 
 Note: Authentication is required to load additional pages beyond the first one.
@@ -189,15 +222,22 @@ Note: Authentication is required to load additional pages beyond the first one.
 #### Add a bookmark
 
 POST /bookmarks
-**Headers**
+
+** Headers **
+
 Authorization: Bearer <access_token>
-**Body Json**
+** Body **
+```json
 {
 "title": "Article title",
 "url": "https://example.com",
 "source": "ABC News"
 }
-**Response**
+```
+
+
+** Response **
+```json
 {
 "result": true,
 "bookmark": {
@@ -207,16 +247,24 @@ Authorization: Bearer <access_token>
 "source": "ABC News"
 }
 }
+```
+
 
 #### Get bookmarked articles (paginated)
 
 GET /bookmarks
-**Headers**
+
+** Headers **
+
 Authorization: Bearer <access_token>
-**Query parameters**
+
+** Query parameters **
+
 Name Type Description Default
 page number Page number 1
-**Response Json**
+
+** Response **
+```json
 {
 "result": true,
 "page": 1,
@@ -225,18 +273,23 @@ page number Page number 1
 "totalPages": 3,
 "bookmarks": []
 }
-
+```
 Note : limit is fixed to 10 on the backend.
 
 #### Remove a bookmark
 
 DELETE /bookmarks/:id
-**Headers**
+
+** Headers **
+
 Authorization: Bearer <access_token>
-**Response Json**
+
+** Response **
+```json
 {
 "result": true
 }
+```
 
 ### HTTP Status Codes
 
@@ -254,13 +307,16 @@ This API follows RESTful conventions and uses standard HTTP status codes:
     •	Automated backend tests implemented with Jest and Supertest
 
 Tests cover:
-• User authentication
-• Protected routes
-• Bookmarks retrieval
+
+      • User authentication
+      • Protected routes
+      • Bookmarks retrieval
 
 Run tests with:
 
+```bash
 yarn test
+```
 
 ## Author :
 
